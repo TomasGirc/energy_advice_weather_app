@@ -6,7 +6,8 @@ import { setUrlParams } from "@/lib/helpers/urlParamsUpdate";
 
 const DateRangePicker = () => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { location, setStartDate, setEndDate } = useLocationStore();
+  const { location, setStartDate, setEndDate, locationList, saveLocation } =
+    useLocationStore();
   const [dates, setDates] = useState(
     () => `${location.start_date} to ${location.end_date}`,
   );
@@ -43,6 +44,11 @@ const DateRangePicker = () => {
             }
             // Update URL params
             setUrlParams({ start_date: start, end_date: end });
+
+            if (locationList.find((loc) => loc.active)) {
+              console.log(location.latitude);
+              saveLocation();
+            }
           }
         },
       });

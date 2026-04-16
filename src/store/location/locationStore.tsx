@@ -61,23 +61,28 @@ export const useLocationStore = create<
       set((state) => ({ location: { ...state.location, end_date } })),
     saveLocation: () => {
       const { location, locationList } = get();
-      // Only add if not already present (by lat/lng)
-      if (
-        !locationList.some(
-          (l) =>
-            l.latitude === location.latitude &&
-            l.longitude === location.longitude,
-        )
-      ) {
-        // If this is the first location, set it active
-        const updatedList =
+      // Check if location is present by lat/lng
+      const index = locationList.findIndex(
+        (l) =>
+          l.latitude === location.latitude &&
+          l.longitude === location.longitude,
+      );
+      let updatedList;
+      if (index !== -1) {
+        // Update the existing location
+        updatedList = locationList.map((l, i) =>
+          i === index ? { ...l, ...location } : l,
+        );
+      } else {
+        // Add new location
+        updatedList =
           locationList.length === 0
             ? [{ ...location, active: true }]
             : [...locationList, { ...location, active: false }];
-        set({ locationList: updatedList });
-        if (typeof window !== "undefined") {
-          localStorage.setItem("locationList", JSON.stringify(updatedList));
-        }
+      }
+      set({ locationList: updatedList });
+      if (typeof window !== "undefined") {
+        localStorage.setItem("locationList", JSON.stringify(updatedList));
       }
     },
     deleteLocation: () => {
