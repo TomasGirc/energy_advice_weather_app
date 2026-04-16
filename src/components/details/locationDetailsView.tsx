@@ -174,7 +174,10 @@ const LocationDetailsView = () => {
 
   return (
     <div>
-      <DateRangePicker />
+      <DateRangePicker
+        startDate={location.start_date}
+        endDate={location.end_date}
+      />
       <div className="flex flex-col md:flex-row mb-2">
         <div className="mr-0 md:mr-4 mb-2 md:mb-0">
           <strong>Latitude:</strong> {location.latitude}
