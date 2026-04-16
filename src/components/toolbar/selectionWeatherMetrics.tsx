@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocationStore } from "@/store/location/locationStore";
-import { setUrlParams } from "@/lib/helpers/urlParamsUpdate";
+import { paramsURL, setUrlParams } from "@/lib/helpers/urlParamsUpdate";
 
 const METRICS = [
   "temperature_2m",
@@ -16,7 +16,7 @@ const SelectionWeatherMetrics = () => {
   // Use lazy initialization to avoid setState in effect
   const [selected, setSelected] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
+      const params = paramsURL;
       const urlHourly = params.get("hourly");
       if (urlHourly) {
         return urlHourly.split(",").filter(Boolean);
