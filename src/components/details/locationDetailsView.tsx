@@ -185,7 +185,7 @@ const LocationDetailsView = () => {
           })}
         </div>
       ) : (
-        <div>No metrics selected</div>
+        !loading && !error && <div>No metrics selected</div>
       )}
     </div>
   );
