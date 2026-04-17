@@ -30,7 +30,7 @@ const Toolbar = () => {
   }, []);
 
   return (
-    <div className="w-full p-4 bg-white shadow rounded mb-4">
+    <div className="w-full p-4 bg-white shadow rounded mb-4 sticky top-0 z-1001">
       <div className="w-full mb-4">
         <DateRangePicker />
       </div>

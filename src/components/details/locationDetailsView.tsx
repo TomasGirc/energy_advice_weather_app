@@ -117,7 +117,7 @@ const LocationDetailsView = () => {
       {loading && <div>Loading weather data...</div>}
       {error && <div style={{ color: "red" }}>{error}</div>}
       {availableMetrics.length > 0 ? (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-row flex-wrap gap-6">
           {availableMetrics.map((metric, idx) => {
             // Prepare main metric dataset
             const metricDataset = {
@@ -180,14 +180,13 @@ const LocationDetailsView = () => {
             }));
 
             return (
-              <>
+              <div key={metric.key} className="w-[49%]">
                 <MultiLineChart
-                  key={metric.key}
                   labels={hourly!.time}
                   datasets={[metricDataset, ...computedDatasets]}
                   title={metric.label}
                 />
-              </>
+              </div>
             );
           })}
         </div>

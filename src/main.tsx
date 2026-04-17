@@ -10,13 +10,15 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ErrorBoundary fallback={<p>Something went wrong. Please reload.</p>}>
       <Toolbar />
-      <div className="flex flex-col md:flex-row gap-4 w-full">
-        <div className="flex-1 min-w-[320px] h-135 p-4 bg-white shadow rounded mb-4">
+      <div className="flex w-full">
+        <div className="flex-1 min-w-[320px] min-h-135 p-4 bg-white shadow rounded mb-4">
           <ErrorBoundary fallback={<p>Map failed to load.</p>}>
             <InteractiveMap />
           </ErrorBoundary>
         </div>
-        <div className="flex-1 min-w-[320px] h-135 p-4 bg-white shadow rounded mb-4">
+      </div>
+      <div className="w-full">
+        <div className="flex-1  p-4 bg-white shadow rounded mb-4">
           <ErrorBoundary fallback={<p>Details failed to load.</p>}>
             <LocationDetailsView />
           </ErrorBoundary>
