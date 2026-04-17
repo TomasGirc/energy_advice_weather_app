@@ -4,6 +4,7 @@ import type { Instance as FlatpickrInstance } from "flatpickr/dist/types/instanc
 import "flatpickr/dist/flatpickr.css";
 import { useLocationStore } from "@/store/location/locationStore";
 import { setUrlParams } from "@/lib/helpers/urlParamsUpdate";
+import { formatLocalDate } from "@/lib/helpers/formatDate";
 
 type DateRangePickerProps = {
   startDate?: string;
@@ -60,23 +61,16 @@ const DateRangePicker = ({ startDate, endDate }: DateRangePickerProps) => {
         onChange: (selectedDates: Date[], dateStr: string) => {
           hasUserInteractedRef.current = true;
           setDates(dateStr.replace(", ", " to "));
-          // Use local date to avoid off-by-one UTC bug
-          const formatLocal = (d: Date) => {
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, "0");
-            const day = String(d.getDate()).padStart(2, "0");
-            return `${year}-${month}-${day}`;
-          };
           let start: string, end: string;
           if (Array.isArray(selectedDates) && selectedDates.length > 0) {
             if (selectedDates.length === 1) {
-              start = formatLocal(selectedDates[0]);
-              end = formatLocal(selectedDates[0]);
+              start = formatLocalDate(selectedDates[0]);
+              end = formatLocalDate(selectedDates[0]);
               setStartDate(start);
               setEndDate(end);
             } else {
-              start = formatLocal(selectedDates[0]);
-              end = formatLocal(selectedDates[1]);
+              start = formatLocalDate(selectedDates[0]);
+              end = formatLocalDate(selectedDates[1]);
               setStartDate(start);
               setEndDate(end);
             }

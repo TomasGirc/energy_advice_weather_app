@@ -13,12 +13,7 @@ function getDefaultDates() {
   };
 }
 
-export const useLocationStore = create<
-  LocationStore & {
-    saveLocation: () => void;
-    deleteLocation: () => void;
-  }
->((set, get) => {
+export const useLocationStore = create<LocationStore>((set, get) => {
   const defaults = getDefaultDates();
   // Read from URL params if present, else default to empty for hourly
   let urlHourly: string[] = [];
@@ -28,8 +23,6 @@ export const useLocationStore = create<
     if (urlHourlyParam) {
       urlHourly = urlHourlyParam.split(",").filter(Boolean);
     }
-    // Optionally, sync store to URL here if needed
-    // setUrlParams({ hourly: urlHourly.length > 0 ? urlHourly.join(",") : undefined });
   }
   const defaultLocation: Location = {
     latitude: 54.89793393064141,

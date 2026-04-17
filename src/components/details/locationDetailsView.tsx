@@ -29,7 +29,20 @@ import { useComputedSeriesStore } from "@/store/computedSeriesStore";
 import { fetchOpenMeteoData } from "@/hooks/openMeteo";
 import MultiLineChart from "./multiLineChart";
 import DateRangePicker from "../toolbar/datePicker";
-import { METRICS } from "@/lib/constants";
+import { COMPUTED_SERIES, METRICS } from "@/lib/constants";
+
+const COMPUTED_COLORS: Record<string, string> = Object.fromEntries(
+  COMPUTED_SERIES.map((s) => [s.key, s.color]),
+);
+const COMPUTED_LABELS: Record<string, string> = Object.fromEntries(
+  COMPUTED_SERIES.map((s) => [s.key, s.label]),
+);
+const COMPUTED_DATA_FNS: Record<string, (data: number[]) => number[]> = {
+  moving_average: (data) => movingAverage(data, 6),
+  min_line: minLine,
+  max_line: maxLine,
+  trend_line: trendLine,
+};
 
 type HourlyWeatherData = {
   time: string[];
@@ -137,34 +150,15 @@ const LocationDetailsView = () => {
               tension: 0.3,
             };
 
-            // Add computed series for this metric
-            const computedColors = {
-              moving_average: "#fbbf24",
-              min_line: "#10b981",
-              max_line: "#ef4444",
-              trend_line: "#6366f1",
-            };
-            const computedLabels = {
-              moving_average: "Moving Average",
-              min_line: "Min Value",
-              max_line: "Max Value",
-              trend_line: "Trend Line",
-            };
-            const computedDataFns = {
-              moving_average: (data: number[]) => movingAverage(data, 6),
-              min_line: minLine,
-              max_line: maxLine,
-              trend_line: trendLine,
-            };
             const computedDatasets = selectedSeries.map((seriesKey, sIdx) => ({
-              label: `${metric.label} - ${computedLabels[seriesKey as keyof typeof computedLabels] || seriesKey}`,
+              label: `${metric.label} - ${COMPUTED_LABELS[seriesKey] || seriesKey}`,
               data: Array.isArray(hourly?.[metric.key])
-                ? computedDataFns[seriesKey as keyof typeof computedDataFns](
+                ? (COMPUTED_DATA_FNS[seriesKey]?.(
                     hourly?.[metric.key] as number[],
-                  )
+                  ) ?? [])
                 : [],
               borderColor:
-                computedColors[seriesKey as keyof typeof computedColors] ||
+                COMPUTED_COLORS[seriesKey] ||
                 ["#888888", "#222222", "#cccccc", "#aaaaaa"][sIdx % 4],
               backgroundColor: "rgba(0,0,0,0)",
               fill: false,

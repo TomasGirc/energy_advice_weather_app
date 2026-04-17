@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocationStore } from "@/store/location/locationStore";
 import { paramsURL, setUrlParams } from "@/lib/helpers/urlParamsUpdate";
 import { METRICS } from "@/lib/constants";
+import CheckboxGroup from "./checkboxGroup";
 
 const SelectionWeatherMetrics = () => {
   const location = useLocationStore((state) => state.location);
@@ -36,21 +37,12 @@ const SelectionWeatherMetrics = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <h4 className="mr-5 font-bold">Metrics :</h4>
-      <div className="flex flex-col gap-4 md:flex-row">
-        {METRICS.map((metric) => (
-          <label key={metric.key} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={selected.includes(metric.key)}
-              onChange={() => handleChange(metric.key)}
-            />
-            {metric.label}
-          </label>
-        ))}
-      </div>
-    </div>
+    <CheckboxGroup
+      title="Metrics :"
+      items={METRICS}
+      selected={selected}
+      onChange={handleChange}
+    />
   );
 };
 

@@ -5,8 +5,8 @@ import {
   paramsURL,
 } from "@/lib/helpers/urlParamsUpdate";
 import { useComputedSeriesStore } from "@/store/computedSeriesStore";
-
-const SERIES = ["moving_average", "min_line", "max_line", "trend_line"];
+import { COMPUTED_SERIES } from "@/lib/constants";
+import CheckboxGroup from "./checkboxGroup";
 
 const SelectionComputedSeries = () => {
   const setComputedSeries = useComputedSeriesStore(
@@ -45,21 +45,12 @@ const SelectionComputedSeries = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <h4 className="mr-5 font-bold">Computed :</h4>
-      <div className="flex flex-col gap-4 md:flex-row">
-        {SERIES.map((series) => (
-          <label key={series} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              checked={selected.includes(series)}
-              onChange={() => handleChange(series)}
-            />
-            {series.replace(/_/g, " ")}
-          </label>
-        ))}
-      </div>
-    </div>
+    <CheckboxGroup
+      title="Computed :"
+      items={COMPUTED_SERIES}
+      selected={selected}
+      onChange={handleChange}
+    />
   );
 };
 

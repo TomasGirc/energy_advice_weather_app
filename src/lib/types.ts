@@ -12,7 +12,6 @@ export type LocationStore = {
   location: Location;
   locationList: Location[];
   setLocation: (location: Location) => void;
-  addLocationToList: (loc: Location) => void;
   setStartDate: (start_date: string) => void;
   setEndDate: (end_date: string) => void;
   saveLocation: () => void;
